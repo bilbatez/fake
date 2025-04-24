@@ -1,0 +1,20 @@
+{
+  "name": "faker-cli",
+  "version": "0.0.1",
+  "description": "The unofficial faker-cli!",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/mustache": "^4.2.5",
+    "prettier": "3.5.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.7.0",
+    "commander": "^13.1.0",
+    "mustache": "^4.2.0"
+  }
+}
