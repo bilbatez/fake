@@ -11,6 +11,12 @@ abstract class Default {
   public static TOTAL_RECORDS: number = 1000;
 }
 
+enum Extension {
+  DEFAULT = "default",
+  CSV = "csv",
+  JSON = "json",
+}
+
 const Message = {
   VERSION: `@bilbatez/faker-cli ${version}
 ${description}
@@ -25,6 +31,8 @@ const HelpMessage = {
   OUTPUT: "generated output file",
   TOTAL_RECORDS: "total number of records to generate",
   LANGUAGE: "language to use for faker",
+  EXTENSION:
+    "output file extension, default will process template without any additional logic",
 };
 
 const ErrorMessage = {
@@ -34,6 +42,7 @@ const ErrorMessage = {
     `Invalid ${module} module for ${faker} instance`,
   INVALID_FUNCTION: (faker: string, func: string) =>
     `Invalid ${func} function for ${faker} instance`,
+  INVALID_CSV_TEMPLATE: () => "Invalid CSV template",
   MISSING: (missing: string) => `Missing ${missing}`,
 };
 
@@ -50,8 +59,9 @@ function main() {
   const opts = program.opts();
   const totalRecords = opts.totalRecords ?? Default.TOTAL_RECORDS;
   const lang = opts.lang ?? Default.LANG;
+  const ext = opts.extension ?? Extension.DEFAULT;
 
-  return execute(templateSrc, outputSrc, totalRecords, lang);
+  return execute(templateSrc, outputSrc, totalRecords, lang, ext);
 }
 
 function init(): Command {
@@ -70,6 +80,11 @@ function init(): Command {
     .addOption(
       new Option("-l,--lang <string>", HelpMessage.LANGUAGE).default(
         Default.LANG,
+      ),
+    )
+    .addOption(
+      new Option("-x,--extension <string>", HelpMessage.EXTENSION).choices(
+        Object.values(Extension),
       ),
     );
 
@@ -123,25 +138,50 @@ function extractMustacheTags(template: string) {
   return [...tags].filter((tag): tag is string => tag != null && tag !== "");
 }
 
+function getFileFormat(
+  template: string,
+  extension: string,
+): [string, string, string, string] {
+  switch (extension) {
+    case Extension.CSV:
+      const templateParts = template.split("\n");
+      if (templateParts.length != 2) {
+        err(ErrorMessage.INVALID_CSV_TEMPLATE());
+      }
+      const [header, recordTemplate] = templateParts;
+      return [header ?? "", "", "\n", recordTemplate ?? ""];
+    case Extension.JSON:
+      return ["[", "]", ",\n", template];
+    default:
+      return ["", "", "\n", template];
+  }
+}
+
 function execute(
   templateSrc: string,
   outputDest: string,
   totalRecords: number,
   lang: string,
+  extension: string,
 ): boolean {
   console.info(Message.STARTING);
   const faker = allFakers[isValidLocale(lang)];
   const cwd = process.cwd();
   const template = fs.readFileSync(path.join(cwd, templateSrc), "utf-8");
-
+  const [header, footer, separator, recordTemplate] = getFileFormat(
+    template,
+    extension,
+  );
   const writeStream = fs.createWriteStream(path.join(cwd, outputDest));
+  writeStream.write(header);
   for (let i = 0; i < totalRecords; i++) {
     const rendered = Mustache.render(
-      template,
-      isValidTemplate(lang, faker, template),
+      recordTemplate,
+      isValidTemplate(lang, faker, recordTemplate),
     );
-    writeStream.write(rendered + "\n");
+    writeStream.write(rendered + (totalRecords - 1 == i ? "" : separator));
   }
+  writeStream.write(footer);
   writeStream.end(() => {
     console.info(Message.COMPLETE);
   });
