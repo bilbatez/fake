@@ -19,5 +19,33 @@
     "@faker-js/faker": "^9.7.0",
     "commander": "^13.1.0",
     "mustache": "^4.2.0"
+  },
+  "keywords": [
+    "faker",
+    "faker.js",
+    "fakerjs",
+    "faker-js",
+    "fake data generator",
+    "fake data",
+    "fake-data",
+    "fake-generator",
+    "fake-data-generator",
+    "fake content generator",
+    "fake contextual data generator",
+    "fake contextual data"
+  ],
+  "homepage": "https://github.com/bilbatez/faker-cli",
+  "bugs": {
+    "url": "https://github.com/bilbatez/faker-cli/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bilbatez/faker-cli.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Albert Julian Tannady",
+    "email": "bilbatez@pm.me",
+    "url": "http://bilbatez.dev/"
   }
 }
