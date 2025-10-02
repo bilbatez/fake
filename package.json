@@ -1,22 +1,25 @@
 {
-  "name": "faker-cli",
+  "name": "fake",
+  "bin": {
+    "fake": "./index.ts"
+  },
   "version": "0.0.1",
-  "description": "The unofficial faker-cli!",
+  "description": "Generate fake data!",
   "module": "index.ts",
   "type": "module",
   "devDependencies": {
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@types/bun": "latest",
-    "@types/mustache": "^4.2.5",
+    "@types/mustache": "^4.2.6",
     "husky": "^9.1.7",
     "prettier": "3.5.3"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
-    "@faker-js/faker": "^9.7.0",
+    "@faker-js/faker": "^10.0.0",
     "commander": "^13.1.0",
     "mustache": "^4.2.0"
   },
@@ -34,18 +37,22 @@
     "fake contextual data generator",
     "fake contextual data"
   ],
-  "homepage": "https://github.com/bilbatez/faker-cli",
+  "homepage": "https://github.com/bilbatez/fake",
   "bugs": {
-    "url": "https://github.com/bilbatez/faker-cli/issues"
+    "url": "https://github.com/bilbatez/fake/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bilbatez/faker-cli.git"
+    "url": "git+https://github.com/bilbatez/fake.git"
   },
   "license": "MIT",
   "author": {
     "name": "Albert Julian Tannady",
     "email": "bilbatez@pm.me",
     "url": "http://bilbatez.dev/"
+  },
+  "scripts": {
+    "build": "bun build ./index.ts --compile --outfile ./dist/fake",
+    "format": "bunx prettier . --write"
   }
 }

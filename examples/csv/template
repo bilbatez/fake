@@ -1,0 +1,2 @@
+email,username,name,phone,avatar
+{{internet.email}},{{internet.username}},{{person.fullName}},{{phone.number}},{{image.avatar}}

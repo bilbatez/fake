@@ -1,0 +1,13 @@
+{
+  "id": "{{string.uuid}}",
+  "user": {
+    "name": "{{person.fullName}}",
+    "email": "{{internet.email}}",
+    "bio": "{{person.bio}}"
+  },
+  "company": {
+    "name": "{{company.name}}",
+    "slogan": "{{company.catchPhraseAdjective}} {{company.catchPhraseDescriptor}} {{company.catchPhraseNoun}}"
+  },
+  "someOtherImportantInformation": "{{lorem.sentences}}"
+}
