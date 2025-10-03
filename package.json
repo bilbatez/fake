@@ -1,5 +1,5 @@
 {
-  "name": "fake",
+  "name": "@bilbatez/fake",
   "bin": {
     "fake": "./index.ts"
   },

@@ -9,7 +9,13 @@ In case it's not obvious, it's using [faker-js](https://github.com/faker-js/fake
 
 ## Installation
 
-TBC
+```bash
+npm install @bilbatez/fake -g
+```
+
+```bash
+npm uninstall @bilbatez/fake -g
+```
 
 ## Usage
 
